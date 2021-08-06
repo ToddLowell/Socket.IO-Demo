@@ -1,7 +1,6 @@
 import socketio
 import base64
 from datetime import datetime
-from time import sleep
 from logger import log
 
 # create Socket.IO server and wrap into a WSGI application
@@ -13,10 +12,10 @@ app = socketio.WSGIApp(sio)
 print(f"{log('[STATUS]', 'blue')} Server Started")
 
 # enocde image to Base64 to send to client
-def send_image(sid):
-    with open("./botw.jpg", "rb") as img:
+def send_image(file_name="./botw.jpg"):
+    with open(file_name, "rb") as img:
         encode = base64.b64encode(img.read())
-        sio.emit("image", {"data": encode.decode("utf-8")}, to=sid)
+        sio.emit("image", {"data": encode.decode("utf-8")})
 
 
 @sio.event
